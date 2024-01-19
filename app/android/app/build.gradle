@@ -111,8 +111,18 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+<<<<<<< HEAD
     implementation project(':react-native-passport-reader')
     // implementation files('libs/jmrtd-0.5.5.jar')
+=======
+    implementation(project(":react-native-passport-reader")) {
+    exclude group: 'edu.ucar', module: 'jj2000'
+}    
+    implementation project(':passportreader')
+    implementation 'org.jmrtd:jmrtd:0.7.18'
+    // implementation files('libs/jmrtd-0.5.5.jar')
+    //implementation 'org.jmrtd:jmrtd:0.7.35'
+>>>>>>> UI
 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")

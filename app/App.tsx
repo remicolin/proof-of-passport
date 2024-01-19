@@ -36,7 +36,10 @@ import {
 } from "@gluestack-ui/themed"
 import { config } from "@gluestack-ui/config" // Optional if you want to use default theme
 import Toast, { BaseToast, ErrorToast, SuccessToast, ToastProps } from 'react-native-toast-message';
+<<<<<<< HEAD
 
+=======
+>>>>>>> UI
 // @ts-ignore
 import PassportReader from 'react-native-passport-reader';
 import {getFirstName, formatDuration, checkInputs } from './utils/utils';
@@ -46,7 +49,11 @@ import {
   DEFAULT_DOE,
   DEFAULT_ADDRESS,
 } from '@env';
+<<<<<<< HEAD
 import {DataHash, PassportData} from '../common/src/utils/types';
+=======
+import {DataHash, PassportData , mockPassportData} from '../common/src/utils/types';
+>>>>>>> UI
 import {AWS_ENDPOINT} from '../common/src/constants/constants';
 import {
   hash,
@@ -65,7 +72,13 @@ import axios from 'axios';
 import groth16ExportSolidityCallData from './utils/snarkjs';
 import contractAddresses from "./deployments/addresses.json"
 import proofOfPassportArtefact from "./deployments/ProofOfPassport.json";
+<<<<<<< HEAD
 
+=======
+import EnterDetailsScreen from './src/screens/EnterDetailsScreen';
+import MainScreen from './src/screens/MainScreen';
+import { extractMRZInfo , Steps} from './src/utils/utils';
+>>>>>>> UI
 console.log('DEFAULT_PNUMBER', DEFAULT_PNUMBER);
 
 const SKIP_SCAN = false;
@@ -81,6 +94,7 @@ const attributeToPosition = {
 }
 
 function App(): JSX.Element {
+<<<<<<< HEAD
   const isDarkMode = useColorScheme() === 'dark';
   const [passportNumber, setPassportNumber] = useState(DEFAULT_PNUMBER ?? '');
   const [dateOfBirth, setDateOfBirth] = useState(DEFAULT_DOB ?? '');
@@ -88,6 +102,17 @@ function App(): JSX.Element {
   const [address, setAddress] = useState(DEFAULT_ADDRESS ?? '');
   const [passportData, setPassportData] = useState<PassportData | null>(null);
   const [step, setStep] = useState('enterDetails');
+=======
+  
+
+  const isDarkMode = useColorScheme() === 'dark';
+  const [passportNumber, setPassportNumber] = useState(DEFAULT_PNUMBER ?? "");
+  const [dateOfBirth, setDateOfBirth] = useState(DEFAULT_DOB ?? '');
+  const [dateOfExpiry, setDateOfExpiry] = useState(DEFAULT_DOE ?? '');
+  const [address, setAddress] = useState(DEFAULT_ADDRESS ?? '');
+  const [passportData, setPassportData] = useState(samplePassportData);
+  const [step, setStep] = useState(Steps.MRZ_SCAN);
+>>>>>>> UI
   const [testResult, setTestResult] = useState<any>(null);
   const [error, setError] = useState<any>(null);
 
@@ -99,6 +124,11 @@ function App(): JSX.Element {
   const [minting, setMinting] = useState<boolean>(false);
   const [mintText, setMintText] = useState<string | null>(null);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> UI
   const [disclosure, setDisclosure] = useState({
     issuing_state: false,
     name: false,
@@ -108,6 +138,28 @@ function App(): JSX.Element {
     gender: false,
     expiry_date: false,
   });
+<<<<<<< HEAD
+=======
+
+  const startCameraScan = () => {
+    NativeModules.CameraActivityModule.startCameraActivity()
+      .then((mrzInfo) => {
+        try {
+          const { documentNumber, birthDate, expiryDate } = extractMRZInfo(mrzInfo);
+          setPassportNumber(documentNumber);
+          setDateOfBirth(birthDate);
+          setDateOfExpiry(expiryDate);
+          setStep(Steps.MRZ_SCAN_COMPLETED);
+        } catch (error) {
+          console.error('Invalid MRZ format:', error.message);
+        }
+      })
+      .catch((error) => {
+        console.error('Camera Activity Error:', error);
+      });
+  };
+
+>>>>>>> UI
   
   const handleDisclosureChange = (field: keyof typeof disclosure) => {
     setDisclosure(
@@ -117,9 +169,24 @@ function App(): JSX.Element {
   };
 
   const backgroundStyle = {
+<<<<<<< HEAD
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+=======
+    backgroundColor:  Colors.white,
+    flex:1
+  };
+
+  const inputStyle = StyleSheet.create({
+    inputField: {
+      minHeight: 45, // Set a minimum height that fits the text
+      // Add other styles as needed to match your design
+    },
+    // Include any other styles you want to apply to the input component
+  });
+
+>>>>>>> UI
   useEffect(() => {
     const logEventListener = DeviceEventEmitter.addListener('LOG_EVENT', e => {
       console.log(e);
@@ -133,10 +200,18 @@ function App(): JSX.Element {
   useEffect(() => {
     if (SKIP_SCAN && passportData === null) {
       setPassportData(samplePassportData as PassportData);
+<<<<<<< HEAD
       setStep('scanCompleted');
     }
   }, []);
 
+=======
+      setStep(Steps.NFC_SCAN_COMPLETED);
+    }
+  }, []);
+
+  
+>>>>>>> UI
   async function handleResponse(response: any) {
     const {
       mrz,
@@ -170,7 +245,11 @@ function App(): JSX.Element {
     console.log('encryptedDigest', passportData.encryptedDigest);
 
     setPassportData(passportData);
+<<<<<<< HEAD
     setStep('scanCompleted');
+=======
+    setStep(Steps.NFC_SCAN_COMPLETED);
+>>>>>>> UI
   }
 
   async function scan() {
@@ -186,7 +265,11 @@ function App(): JSX.Element {
     // 2. press the back of your android phone against the passport
     // 3. wait for the scan(...) Promise to get resolved/rejected
     console.log('scanning...');
+<<<<<<< HEAD
     setStep('scanning');
+=======
+    setStep(Steps.NFC_SCANNING);
+>>>>>>> UI
     try {
       const response = await PassportReader.scan({
         documentNumber: passportNumber,
@@ -206,6 +289,10 @@ function App(): JSX.Element {
   }
 
   const handleProve = async () => {
+<<<<<<< HEAD
+=======
+    setStep(Steps.GENERATING_PROOF);
+>>>>>>> UI
     if (passportData === null) {
       console.log('passport data is null');
       return;
@@ -290,8 +377,13 @@ function App(): JSX.Element {
         proof: JSON.stringify(deserializedProof),
         inputs: JSON.stringify(deserializedInputs),
       });
+<<<<<<< HEAD
       setGeneratingProof(false)
       setStep('proofGenerated');
+=======
+      setGeneratingProof(false);
+      setStep(Steps.PROOF_GENERATED);
+>>>>>>> UI
     });
   };
 
@@ -359,11 +451,16 @@ function App(): JSX.Element {
       <SafeAreaView style={backgroundStyle}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+<<<<<<< HEAD
           backgroundColor={backgroundStyle.backgroundColor}
+=======
+          backgroundColor={Colors.red}
+>>>>>>> UI
         />
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={{
+<<<<<<< HEAD
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
@@ -563,6 +660,37 @@ function App(): JSX.Element {
             </Button>
             {testResult && <Text>{testResult}</Text>}
 
+=======
+            backgroundColor: isDarkMode ? Colors.black : Colors.black,
+          }}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          <View style={styles.view}>
+                      <MainScreen
+                      onStartCameraScan={startCameraScan}
+                      nfcScan = {scan}
+                      passportData={passportData}
+                      disclosure={disclosure}
+                      handleDisclosureChange={handleDisclosureChange}
+                      address={address}
+                      setAddress={setAddress}
+                      generatingProof={generatingProof}
+                      handleProve={handleProve}
+                      step={step}
+                      mintText={mintText}
+                      proof={proof}
+                      proofTime={proofTime}
+                      handleMint={handleMint}
+                      totalTime={totalTime}
+                      setStep={setStep}
+                      passportNumber={passportNumber}
+                      setPassportNumber={setPassportNumber}
+                      dateOfBirth={dateOfBirth}
+                      setDateOfBirth={setDateOfBirth}
+                      dateOfExpiry={dateOfExpiry}
+                      setDateOfExpiry={setDateOfExpiry}
+                      />
+>>>>>>> UI
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -572,6 +700,12 @@ function App(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
+=======
+  view: {
+    flex: 1,
+  },
+>>>>>>> UI
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,

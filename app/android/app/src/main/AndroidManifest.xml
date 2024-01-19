@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+=======
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+>>>>>>> UI
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -11,6 +16,10 @@
       android:label="@string/app_name"
       android:icon="@mipmap/passport_logo"
       android:allowBackup="false"
+<<<<<<< HEAD
+=======
+      tools:replace="android:allowBackup, android:icon, android:name"
+>>>>>>> UI
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"

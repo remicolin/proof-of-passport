@@ -3,4 +3,10 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 include ':app'
 includeBuild('../node_modules/@react-native/gradle-plugin')
 include ':react-native-passport-reader'
+<<<<<<< HEAD
 project(':react-native-passport-reader').projectDir = new File(rootProject.projectDir, './react-native-passport-reader/android')
+=======
+project(':react-native-passport-reader').projectDir = new File(rootProject.projectDir, './react-native-passport-reader/android')
+include ':passportreader'
+project(':passportreader').projectDir = new File(rootProject.projectDir, './android-passport-reader/app')
+>>>>>>> UI
