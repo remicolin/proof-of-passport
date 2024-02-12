@@ -25,10 +25,11 @@ const AppCard: React.FC<AppCardProps> = ({
 
         <XStack
             overflow="hidden"
-
             borderColor={(selected) ? "#E0E0E0" : "white"}
             borderWidth={(selected) ? 6 : 6}
-            borderRadius="$10">
+            borderRadius="$10"
+            shadowColor="black"
+            elevation="$6">
             <Card
                 key={id}
                 elevation={0}
